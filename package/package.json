@@ -1,8 +1,7 @@
 {
-	"name": "@monstermakes/larry-identity-angular-client",
+	"name": "larry-identity-angular-client",
 	"description": "Clientside of larry-identity. ",
 	"version": "0.0.1",
-	"private": true,
 	"publishConfig": {},
 	"files": [
 		"dist/auth/*"
@@ -12,7 +11,6 @@
 		"lint": "echo '=> Linting... ' && ng lint",
 		"lint-fix": "echo '=> Fixing Linting errors...' && ng lint --fix",
 		"build-auth": "echo '=> Building auth lib...' && ng build auth",
-		"release-auth": "npm run build-auth && echo '=> Releasing auth lib...' && cd dist/auth && npm publish",
 		"build-web": "echo '=> Building webapp...' && ng build --prod",
 		"prepublishOnly": "npm test && npm run build-artifacts",
 		"readiness-check": "echo '=> Checking Readiness' && npm test",

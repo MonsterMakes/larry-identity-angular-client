@@ -8,6 +8,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { EnvironmentService } from './services/environment.service';
 
+import { AuthModule } from '@monstermakes/auth';
 @NgModule({
 	declarations: [
 		AppComponent
@@ -15,7 +16,8 @@ import { EnvironmentService } from './services/environment.service';
 	imports: [
 		BrowserModule,
 		AppRoutingModule,
-		HttpClientModule
+		HttpClientModule,
+		AuthModule
 	],
 	providers: [
 		EnvironmentService,
