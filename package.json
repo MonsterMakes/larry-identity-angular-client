@@ -1,0 +1,62 @@
+{
+	"name": "larry-identity-angular-client",
+	"description": "Clientside of larry-identity. ",
+	"version": "0.0.1",
+	"publishConfig": {},
+	"files": [
+		"dist"
+	],
+	"bin": {},
+	"scripts": {
+		"lint": "echo '=> Linting... ' && ng lint",
+		"lint-fix": "echo '=> Fixing Linting errors...' && ng lint --fix",
+		"build-web": "echo '=> Cleaning dist...' && rm -rf dist && echo '=> Building webapp...' && ng build --prod",
+		"prepublishOnly": "npm test && npm run build-artifacts",
+		"readiness-check": "echo '=> Checking Readiness' && npm test",
+		"test": "echo '=> Verifying...' && npm run lint && npm run test-coverage",
+		"test-coverage": "echo '=> TODO Run cypress Tests w/ Coverage...'",
+		"start": "npm run serve-dev",
+		"serve-dev": "echo '=> Running app in Development mode...' && docker-compose -f ./src/docker/dev/docker-compose.yml up --build",
+		"serve": "echo '=> Running app in Production mode...' && npm run build-artifacts && export WebAppImageTag=$(node -e 'console.log(`${process.env.npm_package_name}:${process.env.npm_package_version}`.slice(1));') && docker-compose -f ./src/docker/prod/docker-compose.yml up",
+		"serve-ci-detached": "echo '=> Running app in CI mode (detached)...' && npm run build-artifacts && export WebAppImageTag=$(node -e 'console.log(`${process.env.npm_package_name}:${process.env.npm_package_version}`.slice(1));') && docker-compose -f ./src/docker/ci/docker-compose.yml up -d && wget --retry-connrefused --tries=7 --spider 127.0.0.1:8000/health-check && echo '=> App now running in CI mode!'",
+		"stop-detached": "echo '=> Stopping CI app...' && export WebAppImageTag=$(node -e 'console.log(`${process.env.npm_package_name}:${process.env.npm_package_version}`.slice(1));') && docker-compose -f ./src/docker/ci/docker-compose.yml down",
+		"build-docker-prod": "docker build -f ./src/docker/prod/Dockerfile -t $(node -e 'console.log(`${process.env.npm_package_name}:${process.env.npm_package_version}`.slice(1));') .",
+		"build-artifacts": "echo '=> Building all artifacts...' && npm run build-web && npm run build-docker-prod"
+	},
+	"dependencies": {
+		"@angular/animations": "~7.2.0",
+		"@angular/common": "~7.2.0",
+		"@angular/compiler": "~7.2.0",
+		"@angular/core": "~7.2.0",
+		"@angular/forms": "~7.2.0",
+		"@angular/platform-browser": "~7.2.0",
+		"@angular/platform-browser-dynamic": "~7.2.0",
+		"@angular/router": "~7.2.0",
+		"core-js": "^2.5.4",
+		"rxjs": "~6.3.3",
+		"service": "^0.1.4",
+		"tslib": "^1.9.0",
+		"zone.js": "~0.8.26"
+	},
+	"devDependencies": {
+		"@angular-devkit/build-angular": "~0.13.0",
+		"@angular/cli": "~7.3.8",
+		"@angular/compiler-cli": "~7.2.0",
+		"@angular/language-service": "~7.2.0",
+		"@types/node": "~8.9.4",
+		"@types/jasmine": "~2.8.8",
+		"@types/jasminewd2": "~2.0.3",
+		"codelyzer": "~4.5.0",
+		"jasmine-core": "~2.99.1",
+		"jasmine-spec-reporter": "~4.2.1",
+		"karma": "~4.0.0",
+		"karma-chrome-launcher": "~2.2.0",
+		"karma-coverage-istanbul-reporter": "~2.0.1",
+		"karma-jasmine": "~1.1.2",
+		"karma-jasmine-html-reporter": "^0.2.2",
+		"protractor": "~5.4.0",
+		"ts-node": "~7.0.0",
+		"tslint": "~5.11.0",
+		"typescript": "~3.2.2"
+	}
+}

@@ -1,0 +1,11 @@
+version: '3'
+services:
+  dev-larry-identity-client-test:
+    container_name: dev-larry-identity-client-test
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    volumes: 
+      - ./../../../:/usr/src/app
+    ports:
+      - 4200:4200

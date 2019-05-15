@@ -1,0 +1,8 @@
+version: '3'
+services:
+  larry-identity-client-test:
+    container_name: larry-identity-client-test
+    image: $WebAppImageTag 
+    ports:
+      - '8000:80'
+      
