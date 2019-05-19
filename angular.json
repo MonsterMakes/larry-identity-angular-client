@@ -1,140 +1,150 @@
 {
-  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
-  "version": 1,
-  "newProjectRoot": "projects",
-  "projects": {
-    "larry-identity-client-test": {
-      "root": "./",
-      "sourceRoot": "./",
-      "projectType": "application",
-      "prefix": "app",
-      "schematics": {
-        "@schematics/angular:class": {},
-        "@schematics/angular:component": {
-          "style": "scss",
-          "spec": false,
-          "path": "src/app/components"
-        },
-        "@schematics/angular:directive": {
-          "spec": false,
-          "path": "src/app/directives"
-        },
-        "@schematics/angular:module": {
-          "path": "src/app/modules"
-        },
-        "@schematics/angular:pipe": {
-          "spec": false,
-          "path": "src/app/pipes"
-        },
-        "@schematics/angular:service": {
-          "spec": false,
-          "path": "src/app/services"
-        }
-      },
-      "architect": {
-        "build": {
-          "builder": "@angular-devkit/build-angular:browser",
-          "options": {
-            "outputPath": "dist/larry-identity-client-test",
-            "index": "src/index.html",
-            "main": "src/main.ts",
-            "polyfills": "src/polyfills.ts",
-            "tsConfig": "src/tsconfig.app.json",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets",
-              "environment-details.json"
-            ],
-            "styles": [
-              "src/styles.scss"
-            ],
-            "scripts": [],
-            "es5BrowserSupport": true
-          },
-          "configurations": {
-            "production": {
-              "fileReplacements": [
-                {
-                  "replace": "src/buildMode.ts",
-                  "with": "src/buildMode.prod.ts"
-                }
-              ],
-              "optimization": true,
-              "outputHashing": "all",
-              "sourceMap": false,
-              "extractCss": true,
-              "namedChunks": false,
-              "aot": true,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "2mb",
-                  "maximumError": "5mb"
-                }
-              ]
-            }
-          }
-        },
-        "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
-          "options": {
-            "browserTarget": "larry-identity-client-test:build"
-          },
-          "configurations": {
-            "production": {
-              "browserTarget": "larry-identity-client-test:build:production"
-            }
-          }
-        },
-        "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
-          "options": {
-            "browserTarget": "larry-identity-client-test:build"
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "src/tsconfig.app.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
-        }
-      }
-    },
-    "auth": {
-      "root": "projects/auth",
-      "sourceRoot": "projects/auth/src",
-      "projectType": "library",
-      "prefix": "lry",
-      "architect": {
-        "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
-          "options": {
-            "tsConfig": "projects/auth/tsconfig.lib.json",
-            "project": "projects/auth/ng-package.json"
-          }
-        },
-        
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "projects/auth/tsconfig.lib.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
-        }
-      }
-    }
-  },
-  "defaultProject": "larry-identity-client-test"
+	"$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+	"version": 1,
+	"newProjectRoot": "projects",
+	"projects": {
+		"manual-test": {
+			"root": "./",
+			"sourceRoot": "./src",
+			"projectType": "application",
+			"prefix": "lry",
+			"schematics": {
+				"@schematics/angular:class": {},
+				"@schematics/angular:component": {
+					"style": "scss",
+					"spec": false
+				},
+				"@schematics/angular:directive": {
+					"spec": false
+				},
+				"@schematics/angular:module": {},
+				"@schematics/angular:pipe": {
+					"spec": false
+				},
+				"@schematics/angular:service": {
+					"spec": false
+				}
+			},
+			"architect": {
+				"build": {
+					"builder": "@angular-devkit/build-angular:browser",
+					"options": {
+						"outputPath": "dist/manual-test",
+						"index": "src/index.html",
+						"main": "src/main.ts",
+						"polyfills": "src/polyfills.ts",
+						"tsConfig": "src/tsconfig.app.json",
+						"assets": [
+							"src/favicon.ico",
+							"src/assets",
+							"src/environment-details.json"
+						],
+						"styles": [
+							"src/styles.scss"
+						],
+						"scripts": [],
+						"es5BrowserSupport": true
+					},
+					"configurations": {
+						"production": {
+							"fileReplacements": [
+								{
+									"replace": "src/buildMode.ts",
+									"with": "src/buildMode.prod.ts"
+								}
+							],
+							"optimization": true,
+							"outputHashing": "all",
+							"sourceMap": false,
+							"extractCss": true,
+							"namedChunks": false,
+							"aot": true,
+							"extractLicenses": true,
+							"vendorChunk": false,
+							"buildOptimizer": true,
+							"budgets": [
+								{
+									"type": "initial",
+									"maximumWarning": "2mb",
+									"maximumError": "5mb"
+								}
+							]
+						}
+					}
+				},
+				"serve": {
+					"builder": "@angular-devkit/build-angular:dev-server",
+					"options": {
+						"browserTarget": "manual-test:build"
+					},
+					"configurations": {
+						"production": {
+							"browserTarget": "manual-test:build:production"
+						}
+					}
+				},
+				"extract-i18n": {
+					"builder": "@angular-devkit/build-angular:extract-i18n",
+					"options": {
+						"browserTarget": "manual-test:build"
+					}
+				},
+				"lint": {
+					"builder": "@angular-devkit/build-angular:tslint",
+					"options": {
+						"tsConfig": [
+							"src/tsconfig.app.json"
+						],
+						"exclude": [
+							"**/node_modules/**"
+						]
+					}
+				}
+			}
+		},
+		"auth": {
+			"root": "projects/auth",
+			"sourceRoot": "projects/auth/src",
+			"projectType": "library",
+			"prefix": "lry",
+			"schematics": {
+				"@schematics/angular:class": {},
+				"@schematics/angular:component": {
+					"style": "scss",
+					"spec": false
+				},
+				"@schematics/angular:directive": {
+					"spec": false
+				},
+				"@schematics/angular:module": {},
+				"@schematics/angular:pipe": {
+					"spec": false
+				},
+				"@schematics/angular:service": {
+					"spec": false
+				}
+			},
+			"architect": {
+				"build": {
+					"builder": "@angular-devkit/build-ng-packagr:build",
+					"options": {
+						"tsConfig": "projects/auth/tsconfig.lib.json",
+						"project": "projects/auth/ng-package.json"
+					}
+				},
+				"lint": {
+					"builder": "@angular-devkit/build-angular:tslint",
+					"options": {
+						"tsConfig": [
+							"projects/auth/tsconfig.lib.json"
+						],
+						"exclude": [
+							"**/node_modules/**"
+						]
+					}
+				}
+			}
+		}
+	},
+	"defaultProject": "manual-test"
 }

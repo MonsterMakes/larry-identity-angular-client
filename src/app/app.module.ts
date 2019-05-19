@@ -7,17 +7,17 @@ import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 
 import { EnvironmentService } from './services/environment.service';
+import { LandingComponent } from './components/landing/landing.component';
 
-import { AuthModule } from '@monstermakes/auth';
 @NgModule({
 	declarations: [
-		AppComponent
+		AppComponent,
+		LandingComponent
 	],
 	imports: [
 		BrowserModule,
 		AppRoutingModule,
-		HttpClientModule,
-		AuthModule
+		HttpClientModule
 	],
 	providers: [
 		EnvironmentService,

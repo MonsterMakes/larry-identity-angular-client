@@ -1,5 +1,4 @@
 import { Component, OnInit, OnDestroy, enableProdMode } from '@angular/core';
-import { EnvironmentService } from './services/environment.service';
 
 @Component({
 	selector: 'app-root',
@@ -7,8 +6,8 @@ import { EnvironmentService } from './services/environment.service';
 	styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit, OnDestroy {
-	title = 'larry-identity-client-test';
-	constructor( private _environmentService: EnvironmentService ) {
+	title = 'manual-test';
+	constructor() {
 	}
 	ngOnInit() {
 	}
