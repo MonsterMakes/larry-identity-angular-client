@@ -4,3 +4,13 @@
 <p *ngIf='!_sessionValid'>
 	Your Session is NOT Valid!!!
 </p>
+
+<button (click)="checkHealth();">check health</button>
+<div *ngIf="__response">
+		<h2>Health check Details...</h2>
+		<pre>{{__response | json}}</pre>
+</div>
+<div *ngIf="__error">
+	<h2>An error was received during health check...</h2>
+	<pre>{{__error | json}}</pre>
+</div>

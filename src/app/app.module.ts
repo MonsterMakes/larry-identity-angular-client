@@ -4,10 +4,10 @@ import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
-import { EnvironmentService } from './services/environment.service';
 import { LandingComponent } from './components/landing/landing.component';
+import { AccessTokenInterceptor } from './services/access-token.interceptor';
 
 @NgModule({
 	declarations: [
@@ -20,14 +20,9 @@ import { LandingComponent } from './components/landing/landing.component';
 		HttpClientModule
 	],
 	providers: [
-		EnvironmentService,
 		{
-			// Provider for APP_INITIALIZER
-			provide: APP_INITIALIZER,
-			useFactory: (environmentService: EnvironmentService) => {
-				return () => environmentService.load();
-			},
-			deps: [EnvironmentService],
+			provide: HTTP_INTERCEPTORS,
+			useClass: AccessTokenInterceptor,
 			multi: true
 		}
 	],

@@ -3,11 +3,12 @@ import { Routes, RouterModule } from '@angular/router';
 import { LandingComponent } from './components/landing/landing.component';
 
 const routes: Routes = [
-	{ path: '', redirectTo: 'auth/login', pathMatch: "full" },
-	{ path: 'login', redirectTo: 'auth/login' },
-	{ path: 'code-callback', redirectTo: 'auth/code-callback' },
+	// Required by AUTH Module
 	{ path: 'auth', loadChildren: './lazy-modules/auth-lib-wrapper.module#AuthLibWrapperModule' },
-	{ path: 'landing', component: LandingComponent}
+	{ path: 'landing', component: LandingComponent}, // This is the route executed once the user is successfully logged in
+
+	// Optional Auth Routes
+	{ path: '', redirectTo: 'auth/login', pathMatch: "full" }
 ];
 
 @NgModule({

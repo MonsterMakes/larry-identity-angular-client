@@ -8,20 +8,23 @@ import { LoginComponent } from './components/login/login.component';
 import { CodeCallbackComponent } from './components/code-callback/code-callback.component';
 import { UserSessionService } from './services/user-session.service';
 import { AuthService } from './services/auth.service';
+import { SilentCodeCallbackComponent } from './components/silent-code-callback/silent-code-callback.component';
+import { LoggedOutComponent } from './components/logged-out/logged-out.component';
+import { LogoutComponent } from './components/logout/logout.component';
 
 @NgModule({
   declarations: [
 	  LoginComponent, 
-	  CodeCallbackComponent
+	  CodeCallbackComponent,
+	  SilentCodeCallbackComponent,
+	  LoggedOutComponent,
+	  LogoutComponent
   ],
   imports: [
 	AuthRoutingModule,
 	CommonModule
   ],
-  exports: [
-	  LoginComponent,
-	  CodeCallbackComponent
-  ],
+  exports: [],
   providers: [
 	UamEnvironmentService,
 	UserSessionService,

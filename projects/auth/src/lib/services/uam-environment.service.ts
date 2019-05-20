@@ -1,10 +1,18 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { UamEnvironmentDetails } from '../interfaces/environment-details.interface';
 import * as _ from 'lodash';
 
 const CACHE_KEY= `uam/environment/details`;
 const CACHE_PERIOD_MIN = 30;
+
+export interface UamEnvironmentDetails{
+	apiUrl: string; //the apiUrl of the UAM services (User and Account Management)
+	clientId: string;
+	cachedAt: number; //epoch time when this object was cached
+}
+export interface EnvironmentDetails{
+	uam: UamEnvironmentDetails
+}
 
 @Injectable({
 	providedIn: 'root'
@@ -31,22 +39,24 @@ export class UamEnvironmentService {
 			.then(()=>{
 				let envDetails = null;
 				let cache = window.sessionStorage.getItem(CACHE_KEY);
-				try{
-					envDetails = JSON.parse(cache);
-					let cachedAt = envDetails.cachedAt;
-					// check to see if CACHE_PERIOD has passed
-					if(cachedAt){
-						let currentTime = Date.now();
-						let elapsedMs = currentTime-cachedAt;
-						let elapsedMin = Math.ceil(elapsedMs / (1000*60));
-						if(elapsedMin > CACHE_PERIOD_MIN){
-							envDetails = null;
+				if(cache){
+					try{
+						envDetails = JSON.parse(cache);
+						let cachedAt = envDetails.cachedAt;
+						// check to see if CACHE_PERIOD has passed
+						if(cachedAt){
+							let currentTime = Date.now();
+							let elapsedMs = currentTime-cachedAt;
+							let elapsedMin = Math.ceil(elapsedMs / (1000*60));
+							if(elapsedMin > CACHE_PERIOD_MIN){
+								envDetails = null;
+							}
 						}
 					}
-				}
-				catch(e){
-					//this is not something worth displaying as error... instead we will debug it so its not swallowed
-					console.debug(`Failed to parse Environment Details from SessionStorage.${CACHE_KEY}.`,{valueInSessionStorage: cache});
+					catch(e){
+						//this is not something worth displaying as error... instead we will debug it so its not swallowed
+						console.debug(`Failed to parse Environment Details from SessionStorage.${CACHE_KEY}.`,{valueInSessionStorage: cache});
+					}
 				}
 				return envDetails;
 			})
