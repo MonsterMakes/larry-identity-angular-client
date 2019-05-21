@@ -1,7 +1,21 @@
 
 # Using the Auth Module
 
-To use this 
+To use this module you must provide the following in your application:
+1. Import or lazy load the module into your app module, see angular documentation for more details.
+2. Setup the Auth Module Router 
+	- The Auth Module provides routes (see below) and these must all be exposed under `/auth`
+3. Provide a `/landing` route
+	- You can see below for more details but this will be the route that the user lands post authentication
+4. Inject the UserSessionService
+	- This is the main service you will interact with as an Application developer
+	- It will be used to get to see if the session is active, information about the user (such as Roles and user Information)
+	- see below for more details
+5. Handle Session setup
+	1. inside your app.component.ts use the AuthService directly
+		- call `login()` and optionally pass the state parameter
+		- this will redirect the user to login if their session is not valid and will setup the Silent Authentication properly
+		- If you'd like to take the user directly to the route they have landed on take the route from the url and pass it to the `login` method as a string. Then on your `landing` route retreive the state from the query param and directly route using router.navigate()
 
 --- 
 

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-import { ErrorDetails } from 'dist/auth/lib/interfaces/error-details.interface';
+import { ErrorDetails } from '../../interfaces/error-details.interface';
 
 @Component({
   selector: 'lry-logout',
@@ -20,12 +20,18 @@ export class LogoutComponent implements OnInit {
 		let causeParam = this._currentRoute.snapshot.queryParams.cause;
 		let causeData = this._currentRoute.snapshot.data.cause;
 		if(causeParam){
-			let decodedCauseParam = AuthService.base64UrlDecode(causeParam);
 			try{
-				errorDeets = JSON.parse(causeParam);
+				let decodedCauseParam = AuthService.base64UrlDecode(causeParam);
+				
+				try{
+					errorDeets = JSON.parse(decodedCauseParam);
+				}
+				catch(jsonError){
+					console.error('Cause was supplied as a query patam but is invalid JSON...', { causeParam: causeParam });
+				}
 			}
-			catch(e){
-				console.error('Cause was supplied as a query patam but is invalid JSON...', { causeParam: causeParam });
+			catch(b64UrlDecodeErr){
+				errorDeets = causeParam;//send it raw
 			}
 		}
 		else if(causeData){

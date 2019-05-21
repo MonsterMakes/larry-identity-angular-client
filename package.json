@@ -1,7 +1,7 @@
 {
 	"name": "@monstermakes/larry-identity-angular-client",
 	"description": "Clientside of larry-identity. ",
-	"version": "0.0.2",
+	"version": "0.0.3",
 	"private": true,
 	"publishConfig": {},
 	"files": [
@@ -17,7 +17,7 @@
 		"test": "echo '=> Verifying...' && npm run lint && npm run test-coverage",
 		"test-coverage": "echo '=> TODO Run cypress Tests w/ Coverage...'",
 		"serve-dev-watch": "npm-run-all -p -r build-auth-watch serve-dev-after-build",
-		"build-auth-watch": "echo '=> Building auth lib...' && ng build auth --watch",
+		"build-auth-watch": "echo '=> Building auth lib...' && rm -rf dist/auth && ng build auth --watch",
 		"serve-dev-after-build": "wait-on dist/auth && npm run serve-dev",
 		"build-auth": "echo '=> Building auth lib...' && ng build auth",
 		"build-web": "echo '=> Building webapp...' && ng build --prod",

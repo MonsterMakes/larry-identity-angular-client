@@ -48,7 +48,7 @@ export class AuthService {
 		const sessionIsActive = await this._userSession.isSessionActive();
 		if(sessionIsActive){
 			console.info(`Session already active for domain (${this._uamEnvironmentService.apiUrl})...`);
-			this._sessionVerifiedHandler();
+			this._sessionVerifiedHandler(false,state);
 		}
 		// No active session so we need to start the login process
 		else{
@@ -70,7 +70,7 @@ export class AuthService {
 	 * Exchange the authorization code for the Token.
 	 * This completes the authorization code grant flow.
 	 */
-	async exchangeCodeForToken(authorizationCode: string, dontRedirect?: boolean): Promise<any>{
+	async exchangeCodeForToken(authorizationCode: string, dontRedirect?: boolean, state?: string): Promise<any>{
 		// when we have the uam environment details
 		await this._uamEnvironmentService.whenLoaded();
 
@@ -104,7 +104,7 @@ export class AuthService {
 				return this._userSession.__setSessionDetails(data);
 			})
 			.then(async () => {
-				return this._sessionVerifiedHandler(dontRedirect);
+				return this._sessionVerifiedHandler(dontRedirect,state);
 			})
 			.catch((err: any) => {
 				console.error(`Failed to exchange code for token (${tokenUrl}), contact support.`, {
@@ -133,13 +133,16 @@ export class AuthService {
 	/**
 	 * Called when the user session has been verified and the user is logged in
 	 */
-	_sessionVerifiedHandler(dontRedirect?: boolean): void{
+	_sessionVerifiedHandler(dontRedirect?: boolean, state?: string): void{
 		if(!dontRedirect){
 			let landingPage = '/landing';
+			if(state !== undefined){
+				landingPage += `?state=${state}`;
+			}
 			//Verify that the silent authentication is working and set the correct timer
 			this._initializeSilentLogin();
 			//TODO should we look for custom route somewhere???
-			this._router.navigate([landingPage]);
+			this._router.navigateByUrl(landingPage,{state: {state}});
 		}
 	}
 	//--- END PUBLIC AUTH HANDLER METHODS ---//
@@ -363,9 +366,12 @@ export class AuthService {
 
 	_buildLoggedOutUrl(cause): string {
 		let logoutUrl = new URL(`${window.location.origin}/auth/logged-out`);
-		let params = {
-			cause: AuthService.base64UrlEncode(JSON.stringify(cause))
-		};
+		let params = <any>{};
+
+		if(cause){
+			params.cause = AuthService.base64UrlEncode(JSON.stringify(cause));
+		}
+		
 		let queryParams = new URLSearchParams(<any> params);
 
 		logoutUrl.search = queryParams.toString();

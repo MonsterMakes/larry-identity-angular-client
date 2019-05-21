@@ -88,7 +88,7 @@ export class UserSessionService {
 			return null;
 		}
 	}
-
+	
 	/**
 	 * Get the current active session's decoded access token, null if session is not active
 	 * 
@@ -99,6 +99,29 @@ export class UserSessionService {
 		if(sessionDetails){
 			let token = sessionDetails.access_token;
 			let jwt = jwt_decode(token);
+			return jwt;
+		}
+		else{
+			return null;
+		}
+	}
+
+	/**
+	 * Gets an array of the current user's roles, null if session is not active
+	 * 
+	 * Note: This does not check the validity of the access token just that its not malformed or expired.
+	 */
+	async getUserRoles(): Promise<object>{
+		let sessionDetails = await this.getSessionDetails();
+		if(sessionDetails){
+			let token = sessionDetails.access_token;
+			let jwt = jwt_decode(token);
+			if(jwt[this._uamEnvironmentService.roleClaim]){
+				return jwt[this._uamEnvironmentService.roleClaim];
+			}
+			else{
+				return [];
+			}
 			return jwt;
 		}
 		else{

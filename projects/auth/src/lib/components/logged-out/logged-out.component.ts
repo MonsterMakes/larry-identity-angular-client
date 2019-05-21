@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import * as _ from 'lodash';
 
 @Component({
 	selector: 'lry-logged-out',
@@ -13,13 +14,23 @@ export class LoggedOutComponent implements OnInit {
 	constructor(private _currentRoute: ActivatedRoute) { }
 
 	ngOnInit() {
-		let causeParam = AuthService.base64UrlDecode(this._currentRoute.snapshot.queryParams.cause);
+		let causeParam = this._currentRoute.snapshot.queryParams.cause;
+		
 		if(causeParam){
 			try{
-				this.__cause = JSON.parse(causeParam);
+				let decodedParam = AuthService.base64UrlDecode(causeParam);
+				this.__cause = JSON.parse(decodedParam);
+				if(!_.isPlainObject(this.__cause)){
+					this.__cause = {
+						error: this.__cause
+					};
+				}
 			}
-			catch(e){
+			catch(jsonError){
 				console.error('Logged out cause was supplied but invalid JSON...', { causeParam: causeParam });
+				this.__cause = {
+					error: causeParam
+				};
 			}
 		}
 		

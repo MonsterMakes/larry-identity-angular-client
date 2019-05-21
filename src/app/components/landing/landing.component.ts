@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserSessionService, UamEnvironmentService } from '@monstermakes/auth';
 import { HttpClient } from '@angular/common/http';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
 	selector: 'lry-landing',
@@ -8,22 +9,34 @@ import { HttpClient } from '@angular/common/http';
 	styleUrls: ['./landing.component.scss']
 })
 export class LandingComponent implements OnInit {
-	_sessionValid: boolean;
+	__sessionValid: boolean;
+	__userInfo: any;
+	__userRoles: any;
 	__response: any;
 	__error: any;
-	constructor(private _userSession: UserSessionService, private _uamEnvironmentService: UamEnvironmentService, private _httpObj: HttpClient) { }
+	
+	constructor(
+		private _userSession: UserSessionService, 
+		private _uamEnvironmentService: UamEnvironmentService, 
+		private _httpObj: HttpClient,
+		private _currentRoute: ActivatedRoute
+	) { }
 
 	async ngOnInit() {
 		const sessionDetails = await this._userSession.getSessionDetails();
 		if (sessionDetails) {
-			this._sessionValid = true;
+			this.__sessionValid = true;
 		}
+		this.__userRoles = await this._userSession.getUserRoles();
+		this.__userInfo = await this._userSession.getIdToken();
 	}
 
-	checkHealth() {
+	async checkHealth() {
+		await this._uamEnvironmentService.whenLoaded();
 		this.__error = this.__response = undefined;
+		let url = this._uamEnvironmentService.apiUrl + 'example-private-scoped';
 		return this._httpObj
-			.get(this._uamEnvironmentService.apiUrl + 'health-check')
+			.get(url)
 			.toPromise()
 			.then((data) => {
 				this.__response = data;
